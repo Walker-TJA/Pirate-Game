@@ -15,7 +15,7 @@ p1y = 100
 
 # Waves are BS
 waves = []
-
+print("awesome sauce")
 WAVE_PATTERN = [
     [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1],
     [0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0],
