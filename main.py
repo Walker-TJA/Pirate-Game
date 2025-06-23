@@ -10,8 +10,12 @@ screen = pygame.display.set_mode((sw, sh)) # Initialize Screen
 clock = pygame.time.Clock() # Initialize time/ticks
 
 # Player stuff
-p1x = 100
-p1y = 100
+p1_x = 100
+p1_y = 100
+vel_x = 0
+vel_y = 0
+friction = 0.95  # closer to 1 = less friction
+speed = 0.6       # how fast it accelerates
 
 # Waves are BS
 waves = []
@@ -60,7 +64,7 @@ while Menu == True: # MENU LOOP
     spacing_x = 40
     spacing_y = 40
     offset_range = 10  # randomness amount      
-
+    # Wave spacing and adding to be drawn
     for x in range(0, sw, spacing_x):
         for y in range(0, sh, spacing_y):
             offset_x = random.randint(-offset_range, offset_range)
@@ -82,18 +86,26 @@ while Menu == True: # MENU LOOP
             StartMenu = True
             GameMenu = False
         if keys[pygame.K_UP]:
-            p1y -= 5
+            vel_y -= speed
         if keys[pygame.K_DOWN]:
-            p1y += 5
+            vel_y += speed
         if keys[pygame.K_LEFT]:
-            p1x -= 5
+            vel_x -= speed
         if keys[pygame.K_RIGHT]:
-            p1x += 5
+            vel_x += speed
+        
+        # Apply Velocity
+        p1_x += vel_x
+        p1_y += vel_y
 
-         # Draw all waves
+        # Apply Friction
+        vel_x *= friction
+        vel_y *= friction
+
+        # Draw all waves
         for wave in waves:
             wave.draw(screen)
         
-        pygame.draw.rect(screen, (255, 0, 0), (p1x, p1y, 100, 100))
+        pygame.draw.rect(screen, (255, 0, 0), (p1_x, p1_y, 50, 50))
         pygame.display.flip()  
         clock.tick(60)
