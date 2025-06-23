@@ -15,7 +15,7 @@ p1_y = 100
 vel_x = 0
 vel_y = 0
 friction = 0.95  # closer to 1 = less friction
-speed = 0.6       # how fast it accelerates
+speed = 0.5       # how fast it accelerates
 
 # Waves are BS
 waves = []
