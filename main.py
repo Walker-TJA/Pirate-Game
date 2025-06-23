@@ -25,6 +25,7 @@ WAVE_PATTERN = [
     [0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0],
     [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0]
 ]
+i = 0
 
 class Wave:
     def __init__(self, x, y):
@@ -60,16 +61,10 @@ while Menu == True: # MENU LOOP
 
         pygame.display.flip()
 
-    # Generate wave objects on a grid with randomness
+    # Wave stats
     spacing_x = 40
     spacing_y = 40
     offset_range = 10  # randomness amount      
-    # Wave spacing and adding to be drawn
-    for x in range(0, sw, spacing_x):
-        for y in range(0, sh, spacing_y):
-            offset_x = random.randint(-offset_range, offset_range)
-            offset_y = random.randint(-offset_range, offset_range)
-            waves.append(Wave(x + offset_x, y + offset_y))
 
     GameMenu = True
     while GameMenu: # GAME LOOP
@@ -78,6 +73,19 @@ while Menu == True: # MENU LOOP
                 pygame.quit()
 
         screen.fill((0, 150, 255))
+
+        #Generate new random waves
+        if i % 120 == 0: # Way of saying every tick run the stuff
+            waves.clear()
+            for x in range(0, sw, spacing_x):
+                for y in range(0, sh, spacing_y):
+                    offset_x = random.randint(-offset_range, offset_range)
+                    offset_y = random.randint(-offset_range, offset_range)
+                    waves.append(Wave(x + offset_x, y + offset_y))
+                    # Draw all waves
+        for wave in waves:
+            wave.draw(screen)
+            
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]: 
@@ -102,10 +110,10 @@ while Menu == True: # MENU LOOP
         vel_x *= friction
         vel_y *= friction
 
-        # Draw all waves
-        for wave in waves:
-            wave.draw(screen)
         
+        # Draw player collision rectangle
         pygame.draw.rect(screen, (255, 0, 0), (p1_x, p1_y, 50, 50))
+             
         pygame.display.flip()  
         clock.tick(60)
+        i+=1 # Update wave tick
